@@ -46,6 +46,11 @@ def get_distance(p1, p2):
     return dist
 
 
+def init_routes(qnt):
+    routes = { i: False for i in range(0, qnt) }
+    return routes
+
+
 ###################
 # FIM DAS FUNCOES #
 ###################
@@ -60,18 +65,16 @@ clientes = []  # estrutura que sera permutada
 for i in range(0, len(problema["dados"])):
     clientes.append(problema["dados"][i][0])
 
-aux = criar_aux(problema["qtd_cliente"] - 1)
-rotas_corte = zera_rota(problema["qtd_cliente"] - 1)
+rotas = init_routes(problema["qtd_cliente"] - 1)
 
 for num_rotas in range(
-    3, len(rotas_corte) + 2
+    3, len([*rotas]) + 2
 ):  # este for explora as quantas rotas vai ter minha solução
-
-    y = combinations(aux, num_rotas - 1)
+    y = combinations([*rotas], num_rotas - 1)
     for i in list(y):  # faz todas as possibilidades de rotas de tamanho NUM_ROTA
         # print(i) # onde vai ser o corte
         for j in i:  # marca com o numero 1 os cortes
-            rotas_corte[j] = 1
+            rotas[j] = True
         # print(rotas_corte) # como ficou o corte
 
         solucao = criar_solucao()
@@ -81,8 +84,8 @@ for num_rotas in range(
         for caso_cliente in list(cliente_perm):  # permutacao dos clientes
             print(caso_cliente)  # qual permutacao esta sendo trabalhada
             temp.append(caso_cliente[0])
-            for k in range(0, len(rotas_corte)):  # constrói a solução
-                if rotas_corte[k] == 1:
+            for k in range(0, len([*rotas])):  # constrói a solução
+                if rotas[k] is True:
                     solucao.append(temp)
                     temp = zerar_temp()
                 temp.append(caso_cliente[k + 1])
@@ -95,5 +98,5 @@ for num_rotas in range(
             solucao = criar_solucao()
             temp = zerar_temp()
 
-        rotas_corte = zera_rota(problema["qtd_cliente"] - 1)
+        rotas = init_routes(problema["qtd_cliente"] - 1)
 
