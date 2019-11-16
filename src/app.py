@@ -6,16 +6,6 @@ from itertools import combinations
 DATA_5_CLIENT_PATH = "./tai5.dat"
 DATA_10_CLIENT_PATH = "./tai10.dat"
 
-def criar_solucao():
-    solucao = []
-    return solucao
-
-
-def zerar_temp():
-    temp = []
-    return temp
-
-
 def extract_from_data_file(file_path):
     datContent = [i.strip().split() for i in open(file_path).readlines()]
     vrp_info = {
@@ -47,11 +37,10 @@ def init_routes(qnt):
 
 melhor = 0
 distancia = 0
-dados = []  # estrutura que sera adicionada ao dicionario
+dados = []
 problema = extract_from_data_file(DATA_10_CLIENT_PATH)
 
-clientes = []  # estrutura que sera permutada
-# criando o array de clientes
+clientes = []
 for i in range(0, len(problema["dados"])):
     clientes.append(problema["dados"][i][0])
 
@@ -66,19 +55,19 @@ for num_rotas in range(
     sets_of_routes_combinations = combinations([*rotas], num_rotas - 1)
     for set_of_routes in list(sets_of_routes_combinations):  # faz todas as possibilidades de rotas de tamanho NUM_ROTA
         # print(i) # onde vai ser o corte
-        for route_endpoint in set_of_routes:  # marca com o numero 1 os cortes
-            rotas[route_endpoint] = True
+        for route_endpoint in set_of_routes:
+            rotas[route_endpoint] = True # Adiciona True nos cortes das rotas
         # print(rotas) # como ficou o corte
-        solucao = criar_solucao()
-        route = zerar_temp()
+        solucao = [] # Zera a solução
+        route = [] # Zera a rota
 
         for client_point in list(cliente_perm):  # permutacao dos clientes
-            print(client_point)  # qual permutacao esta sendo trabalhada
-            route.append(client_point[0])
+            print(client_point)
+            route.append(client_point[0]) # O primeiro ponto de parada sempre entra na rota
             for route_index in range(0, max_num_of_routes):  # constrói a solução
                 if rotas[route_index] is True:
                     solucao.append(route)
-                    route = zerar_temp()
+                    route = [] # Zera a rota
                 route.append(client_point[route_index + 1])
             solucao.append(route)
             print(solucao, "\n")
@@ -86,8 +75,8 @@ for num_rotas in range(
             # for teste in client_point:
             #   print(problema['dados'][teste-1])
 
-            solucao = criar_solucao()
-            route = zerar_temp()
+            solucao = [] # Zera a solução
+            route = [] # Zera a rota
 
-        rotas = init_routes(problema["qtd_cliente"] - 1)
+        rotas = init_routes(problema["qtd_cliente"] - 1) # Inicializa as rotas para as novas combinações de rotas
 
