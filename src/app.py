@@ -61,12 +61,13 @@ max_num_of_routes = len([*rotas])
 for num_rotas in range(
     3, max_num_of_routes + 2
 ):  # este for explora as quantas rotas vai ter minha solução
-    y = combinations([*rotas], num_rotas - 1)
-    for i in list(y):  # faz todas as possibilidades de rotas de tamanho NUM_ROTA
+    sets_of_routes_combinations = combinations([*rotas], num_rotas - 1)
+    for set_of_routes in list(sets_of_routes_combinations):  # faz todas as possibilidades de rotas de tamanho NUM_ROTA
+        import ipdb; ipdb.set_trace()
         # print(i) # onde vai ser o corte
-        for j in i:  # marca com o numero 1 os cortes
-            rotas[j] = True
-        # print(rotas_corte) # como ficou o corte
+        for route in set_of_routes:  # marca com o numero 1 os cortes
+            rotas[route] = True
+        # print(rotas) # como ficou o corte
 
         solucao = criar_solucao()
         temp = zerar_temp()
