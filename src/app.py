@@ -61,14 +61,14 @@ for num_rotas in range(
         solucao = [] # Zera a solução
         route = [] # Zera a rota
 
-        for client_point in list(cliente_perm):  # permutacao dos clientes
-            print(client_point)
-            route.append(client_point[0]) # O primeiro ponto de parada sempre entra na rota
+        for clients_points in list(cliente_perm):  # permutacao dos clientes
+            print(clients_points)
+            route.append(clients_points[0]) # O primeiro ponto de parada sempre entra na rota
             for route_index in range(0, max_num_of_routes):  # constrói a solução
                 if rotas[route_index] is True:
                     solucao.append(route)
                     route = [] # Zera a rota
-                route.append(client_point[route_index + 1])
+                route.append(clients_points[route_index + 1])
             solucao.append(route)
             print(solucao, "\n")
 
