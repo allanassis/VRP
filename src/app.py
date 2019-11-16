@@ -9,8 +9,6 @@ problema = {
     'capacidade' : int(datContent[1][0])
 }
 
-import ipdb; ipdb.set_trace()
-
 # criando array do corte para as rotas
 def zera_rota(qtd_cliente):
     rotas_corte = []
