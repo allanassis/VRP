@@ -6,16 +6,6 @@ from itertools import combinations
 DATA_5_CLIENT_PATH = "./tai5.dat"
 DATA_10_CLIENT_PATH = "./tai10.dat"
 
-# criando array do corte para as rotas
-def zera_rota(qtd_cliente):
-    return [0] * qtd_cliente
-
-
-# criando array auxiliar para as rotas
-def criar_aux(qtd_cliente):
-    return [i for i in range(0, qtd_cliente)]
-
-
 def criar_solucao():
     solucao = []
     return solucao
