@@ -15,10 +15,7 @@ def zera_rota(qtd_cliente):
 
 # criando array auxiliar para as rotas
 def criar_aux(qtd_cliente):
-    aux = []
-    for i in range(0, qtd_cliente):
-        aux.append(i)
-    return aux
+    return [i for i in range(0,qtd_cliente)]
 
 def criar_solucao():
     solucao = []
