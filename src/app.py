@@ -1,13 +1,8 @@
 from itertools import permutations
 from itertools import combinations
 
-datContent = [i.strip().split() for i in open("./tai10.dat").readlines()]
-
-# dicionario com os dados do problema
-problema = {
-    'qtd_cliente' : int(datContent[0][0]), 
-    'capacidade' : int(datContent[1][0])
-}
+DATA_5_CLIENT_PATH = "./tai5.dat"
+DATA_10_CLIENT_PATH = "./tai10.dat"
 
 # criando array do corte para as rotas
 def zera_rota(qtd_cliente):
@@ -25,6 +20,18 @@ def zerar_temp():
     temp = []
     return temp
 
+def extract_from_data_file(file_path):
+    datContent = [i.strip().split() for i in open(file_path).readlines()]
+    vrp_info = {
+        'qtd_cliente': int(datContent[0][0]),
+        'capacidade' : int(datContent[1][0]),
+        'dados': []
+    }
+    for i in range(3, len(datContent)):
+        datContent[i] = list(map(int, datContent[i])) # converte o conteudo de str pra int
+        vrp_info['dados'].append(datContent[i])
+    return vrp_info
+
 ###################
 # FIM DAS FUNCOES #
 ###################
@@ -32,10 +39,7 @@ def zerar_temp():
 melhor = 0
 distancia = 0
 dados = [] # estrutura que sera adicionada ao dicionario
-for i in range(3, len(datContent)): 
-    datContent[i] = list(map(int, datContent[i])) # converte o conteudo de str pra int
-    dados.append(datContent[i])
-problema['dados'] = dados # guarda o vetor no dicionario
+problema = extract_from_data_file(DATA_10_CLIENT_PATH)
 
 clientes = [] # estrutura que sera permutada
 # criando o array de clientes
