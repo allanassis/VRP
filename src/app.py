@@ -45,6 +45,11 @@ def calc_route(route, route_data):
         distance += get_distance(p1,p2)
     return distance
 
+def calc_set_of_routes_coast(routes, routes_data):
+    coast = 0
+    for route in routes:
+        coast += calc_route(route, routes_data)
+    return coast
 
 ###################
 # FIM DAS FUNCOES #
