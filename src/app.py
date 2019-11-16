@@ -11,10 +11,7 @@ problema = {
 
 # criando array do corte para as rotas
 def zera_rota(qtd_cliente):
-    rotas_corte = []
-    for i in range(0, qtd_cliente):
-        rotas_corte.append(0)
-    return rotas_corte
+    return [0] * qtd_cliente
 
 # criando array auxiliar para as rotas
 def criar_aux(qtd_cliente):
