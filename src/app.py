@@ -1,3 +1,5 @@
+import math
+
 from itertools import permutations
 from itertools import combinations
 
@@ -37,6 +39,11 @@ def extract_from_data_file(file_path):
         )  # converte o conteudo de str pra int
         vrp_info["dados"].append(datContent[i])
     return vrp_info
+
+
+def get_distance(p1, p2):
+    dist = math.sqrt((p2["x"] - p1["x"]) ** 2 + (p2["y"] - p1["y"]) ** 2)
+    return dist
 
 
 ###################
