@@ -56,9 +56,10 @@ for i in range(0, len(problema["dados"])):
     clientes.append(problema["dados"][i][0])
 
 rotas = init_routes(problema["qtd_cliente"] - 1)
+max_num_of_routes = len([*rotas])
 
 for num_rotas in range(
-    3, len([*rotas]) + 2
+    3, max_num_of_routes + 2
 ):  # este for explora as quantas rotas vai ter minha solução
     y = combinations([*rotas], num_rotas - 1)
     for i in list(y):  # faz todas as possibilidades de rotas de tamanho NUM_ROTA
@@ -74,7 +75,7 @@ for num_rotas in range(
         for caso_cliente in list(cliente_perm):  # permutacao dos clientes
             print(caso_cliente)  # qual permutacao esta sendo trabalhada
             temp.append(caso_cliente[0])
-            for k in range(0, len([*rotas])):  # constrói a solução
+            for k in range(0, max_num_of_routes):  # constrói a solução
                 if rotas[k] is True:
                     solucao.append(temp)
                     temp = zerar_temp()
