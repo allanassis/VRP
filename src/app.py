@@ -66,8 +66,8 @@ for num_rotas in range(
     sets_of_routes_combinations = combinations([*rotas], num_rotas - 1)
     for set_of_routes in list(sets_of_routes_combinations):  # faz todas as possibilidades de rotas de tamanho NUM_ROTA
         # print(i) # onde vai ser o corte
-        for route in set_of_routes:  # marca com o numero 1 os cortes
-            rotas[route] = True
+        for route_endpoint in set_of_routes:  # marca com o numero 1 os cortes
+            rotas[route_endpoint] = True
         # print(rotas) # como ficou o corte
         solucao = criar_solucao()
         route = zerar_temp()
