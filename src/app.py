@@ -69,20 +69,18 @@ for num_rotas in range(
         for route in set_of_routes:  # marca com o numero 1 os cortes
             rotas[route] = True
         # print(rotas) # como ficou o corte
-
         solucao = criar_solucao()
-        temp = zerar_temp()
+        route = zerar_temp()
 
-        cliente_perm = permutations(clientes)
         for caso_cliente in list(cliente_perm):  # permutacao dos clientes
             print(caso_cliente)  # qual permutacao esta sendo trabalhada
-            temp.append(caso_cliente[0])
+            route.append(caso_cliente[0])
             for k in range(0, max_num_of_routes):  # constrói a solução
                 if rotas[k] is True:
-                    solucao.append(temp)
-                    temp = zerar_temp()
-                temp.append(caso_cliente[k + 1])
-            solucao.append(temp)
+                    solucao.append(route)
+                    route = zerar_temp()
+                route.append(caso_cliente[k + 1])
+            solucao.append(route)
             print(solucao, "\n")
 
             # for teste in caso_cliente:
