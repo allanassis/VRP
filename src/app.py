@@ -72,22 +72,22 @@ for num_rotas in range(
         solucao = criar_solucao()
         route = zerar_temp()
 
-        for caso_cliente in list(cliente_perm):  # permutacao dos clientes
-            print(caso_cliente)  # qual permutacao esta sendo trabalhada
-            route.append(caso_cliente[0])
-            for k in range(0, max_num_of_routes):  # constrói a solução
-                if rotas[k] is True:
+        for client_point in list(cliente_perm):  # permutacao dos clientes
+            print(client_point)  # qual permutacao esta sendo trabalhada
+            route.append(client_point[0])
+            for route_index in range(0, max_num_of_routes):  # constrói a solução
+                if rotas[route_index] is True:
                     solucao.append(route)
                     route = zerar_temp()
-                route.append(caso_cliente[k + 1])
+                route.append(client_point[route_index + 1])
             solucao.append(route)
             print(solucao, "\n")
 
-            # for teste in caso_cliente:
+            # for teste in client_point:
             #   print(problema['dados'][teste-1])
 
             solucao = criar_solucao()
-            temp = zerar_temp()
+            route = zerar_temp()
 
         rotas = init_routes(problema["qtd_cliente"] - 1)
 
