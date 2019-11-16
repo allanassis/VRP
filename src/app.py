@@ -30,6 +30,21 @@ def init_routes(qnt):
     routes = { i: False for i in range(0, qnt) }
     return routes
 
+def calc_route(route, route_data):
+    distance = 0
+    p1 = {}
+    p2 = {}
+    routes_info = [r for r in route_data if r[0] in route]
+    number_of_routes_points = len(routes_info)
+    for i in range(0,number_of_routes_points):
+        p1 = {'x': routes_info[i][1],'y':routes_info[i][2]}
+        if(i == number_of_routes_points - 1):
+            p2 = {'x': routes_info[0][1],'y':routes_info[0][2]}
+        else:
+            p2 = {'x': routes_info[i+1][1],'y':routes_info[i+1][2]}
+        distance += get_distance(p1,p2)
+    return distance
+
 
 ###################
 # FIM DAS FUNCOES #
