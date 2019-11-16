@@ -11,6 +11,7 @@ def extract_from_data_file(file_path):
     vrp_info = {
         "qtd_cliente": int(datContent[0][0]),
         "capacidade": int(datContent[1][0]),
+        'origin': [0, int(datContent[2][0]), int(datContent[2][1])],
         "dados": [],
     }
     for i in range(3, len(datContent)):
@@ -30,11 +31,12 @@ def init_routes(qnt):
     routes = { i: False for i in range(0, qnt) }
     return routes
 
-def calc_route(route, route_data):
+def calc_route(route, route_data, origin):
     distance = 0
     p1 = {}
     p2 = {}
     routes_info = [r for r in route_data if r[0] in route]
+    routes_info.append(origin)
     number_of_routes_points = len(routes_info)
     for i in range(0,number_of_routes_points):
         p1 = {'x': routes_info[i][1],'y':routes_info[i][2]}
@@ -45,10 +47,10 @@ def calc_route(route, route_data):
         distance += get_distance(p1,p2)
     return distance
 
-def calc_set_of_routes_coast(routes, routes_data):
+def calc_set_of_routes_coast(routes, routes_data, origin):
     coast = 0
     for route in routes:
-        coast += calc_route(route, routes_data)
+        coast += calc_route(route, routes_data, origin)
     return coast
 
 ###################
@@ -58,7 +60,7 @@ def calc_set_of_routes_coast(routes, routes_data):
 melhor = 0
 distancia = 0
 dados = []
-problema = extract_from_data_file(DATA_10_CLIENT_PATH)
+problema = extract_from_data_file(DATA_5_CLIENT_PATH)
 
 clientes = []
 for i in range(0, len(problema["dados"])):
@@ -90,6 +92,8 @@ for num_rotas in range(
                     route = [] # Zera a rota
                 route.append(clients_points[route_index + 1])
             solucao.append(route)
+            set_of_routes_coast = calc_set_of_routes_coast(solucao, problema['dados'], problema['origin'])
+            dados.append({'solucao':solucao, 'coast': set_of_routes_coast})
             print(solucao, "\n")
 
             # for teste in client_point:
@@ -100,3 +104,6 @@ for num_rotas in range(
 
         rotas = init_routes(problema["qtd_cliente"] - 1) # Inicializa as rotas para as novas combinações de rotas
 
+for data in dados:
+    print('solucao:',data['solucao'])
+    print('coast:',data['coast'])
