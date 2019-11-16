@@ -55,6 +55,8 @@ clientes = []  # estrutura que sera permutada
 for i in range(0, len(problema["dados"])):
     clientes.append(problema["dados"][i][0])
 
+cliente_perm = permutations(clientes)
+
 rotas = init_routes(problema["qtd_cliente"] - 1)
 max_num_of_routes = len([*rotas])
 
