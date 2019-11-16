@@ -53,6 +53,15 @@ def calc_set_of_routes_coast(routes, routes_data, origin):
         coast += calc_route(route, routes_data, origin)
     return coast
 
+def is_over_weight(route, route_data, max):
+    route_coast = 0
+    routes_info = [r for r in route_data if r[0] in route]
+    for route in routes_info:
+        route_coast += route[3]
+    if route_coast > max:
+        return True
+    return False
+
 ###################
 # FIM DAS FUNCOES #
 ###################
@@ -60,8 +69,7 @@ def calc_set_of_routes_coast(routes, routes_data, origin):
 melhor = 0
 distancia = 0
 dados = []
-problema = extract_from_data_file(DATA_5_CLIENT_PATH)
-
+problema = extract_from_data_file(DATA_10_CLIENT_PATH)
 clientes = []
 for i in range(0, len(problema["dados"])):
     clientes.append(problema["dados"][i][0])
@@ -88,13 +96,18 @@ for num_rotas in range(
             route.append(clients_points[0]) # O primeiro ponto de parada sempre entra na rota
             for route_index in range(0, max_num_of_routes):  # constrói a solução
                 if rotas[route_index] is True:
-                    solucao.append(route)
+                    check_route = is_over_weight(route, problema['dados'], problema['capacidade'])
+                    if not check_route:
+                        solucao.append(route)
                     route = [] # Zera a rota
                 route.append(clients_points[route_index + 1])
-            solucao.append(route)
-            set_of_routes_coast = calc_set_of_routes_coast(solucao, problema['dados'], problema['origin'])
-            dados.append({'solucao':solucao, 'coast': set_of_routes_coast})
-            print(solucao, "\n")
+            check_route = is_over_weight(route, problema['dados'], problema['capacidade'])
+            print("route", route)
+            if not check_route:
+                solucao.append(route)
+                set_of_routes_coast = calc_set_of_routes_coast(solucao, problema['dados'], problema['origin'])
+                dados.append({'solucao':solucao, 'coast': set_of_routes_coast})
+                print(solucao, "\n")
 
             # for teste in client_point:
             #   print(problema['dados'][teste-1])
