@@ -63,7 +63,6 @@ for num_rotas in range(
 ):  # este for explora as quantas rotas vai ter minha solução
     sets_of_routes_combinations = combinations([*rotas], num_rotas - 1)
     for set_of_routes in list(sets_of_routes_combinations):  # faz todas as possibilidades de rotas de tamanho NUM_ROTA
-        import ipdb; ipdb.set_trace()
         # print(i) # onde vai ser o corte
         for route in set_of_routes:  # marca com o numero 1 os cortes
             rotas[route] = True
