@@ -74,7 +74,7 @@ clientes = []
 for i in range(0, len(problema["dados"])):
     clientes.append(problema["dados"][i][0])
 
-cliente_perm = permutations(clientes)
+cliente_perm = list(permutations(clientes))
 
 rotas = init_routes(problema["qtd_cliente"] - 1)
 max_num_of_routes = len([*rotas])
@@ -82,32 +82,37 @@ max_num_of_routes = len([*rotas])
 for num_rotas in range(
     3, max_num_of_routes + 2
 ):  # este for explora as quantas rotas vai ter minha solução
-    sets_of_routes_combinations = combinations([*rotas], num_rotas - 1)
-    for set_of_routes in list(sets_of_routes_combinations):  # faz todas as possibilidades de rotas de tamanho NUM_ROTA
+    sets_of_routes_combinations = list(combinations([*rotas], num_rotas - 1))
+    for set_of_routes in sets_of_routes_combinations:  # faz todas as possibilidades de rotas de tamanho NUM_ROTA
         # print(i) # onde vai ser o corte
+        print(set_of_routes)
         for route_endpoint in set_of_routes:
             rotas[route_endpoint] = True # Adiciona True nos cortes das rotas
         # print(rotas) # como ficou o corte
         solucao = [] # Zera a solução
         route = [] # Zera a rota
-
-        for clients_points in list(cliente_perm):  # permutacao dos clientes
-            print(clients_points)
+        bad_solution = False
+        for clients_points in cliente_perm:  # permutacao dos clientes
             route.append(clients_points[0]) # O primeiro ponto de parada sempre entra na rota
             for route_index in range(0, max_num_of_routes):  # constrói a solução
                 if rotas[route_index] is True:
                     check_route = is_over_weight(route, problema['dados'], problema['capacidade'])
                     if not check_route:
                         solucao.append(route)
-                    route = [] # Zera a rota
+                        route = [] # Zera a rota
+                    else:
+                        bad_solution = True
+                        break
                 route.append(clients_points[route_index + 1])
             check_route = is_over_weight(route, problema['dados'], problema['capacidade'])
-            print("route", route)
-            if not check_route:
+            if not check_route and not bad_solution:
                 solucao.append(route)
                 set_of_routes_coast = calc_set_of_routes_coast(solucao, problema['dados'], problema['origin'])
                 dados.append({'solucao':solucao, 'coast': set_of_routes_coast})
-                print(solucao, "\n")
+                print("=============== // =================")
+                print(f"Solução: {solucao}")
+                print(f"Custo: {set_of_routes_coast}")
+                print("=====================//==================")
 
             # for teste in client_point:
             #   print(problema['dados'][teste-1])
@@ -117,6 +122,17 @@ for num_rotas in range(
 
         rotas = init_routes(problema["qtd_cliente"] - 1) # Inicializa as rotas para as novas combinações de rotas
 
+best_solution = {'solution': [], 'coast': 10000}
+coasts = []
 for data in dados:
+    coasts.append(int(data['coast']))
+    if data['coast'] < best_solution['coast']:
+        best_solution['coast'] = data['coast']
+        best_solution['solution'] = data['solucao']
+
     print('solucao:',data['solucao'])
     print('coast:',data['coast'])
+
+print(f"Best solution: {best_solution['solution']}")
+print(f"Coast of solution: {best_solution['coast']}")
+print("Coast should be:", min(coasts))
