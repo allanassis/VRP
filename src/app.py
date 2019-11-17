@@ -68,8 +68,7 @@ def is_over_weight(route, route_data, max):
 
 melhor = 0
 distancia = 0
-dados = []
-problema = extract_from_data_file(DATA_10_CLIENT_PATH)
+problema = extract_from_data_file(DATA_5_CLIENT_PATH)
 clientes = []
 for i in range(0, len(problema["dados"])):
     clientes.append(problema["dados"][i][0])
@@ -79,6 +78,8 @@ cliente_perm = list(permutations(clientes))
 rotas = init_routes(problema["qtd_cliente"] - 1)
 max_num_of_routes = len([*rotas])
 
+min_coast = 10000
+best_solution = {}
 for num_rotas in range(
     3, max_num_of_routes + 2
 ):  # este for explora as quantas rotas vai ter minha solução
@@ -108,11 +109,13 @@ for num_rotas in range(
             if not check_route and not bad_solution:
                 solucao.append(route)
                 set_of_routes_coast = calc_set_of_routes_coast(solucao, problema['dados'], problema['origin'])
-                dados.append({'solucao':solucao, 'coast': set_of_routes_coast})
-                print("=============== // =================")
-                print(f"Solução: {solucao}")
-                print(f"Custo: {set_of_routes_coast}")
-                print("=====================//==================")
+                if set_of_routes_coast < min_coast:
+                    min_coast = set_of_routes_coast
+                    best_solution = {'solution':solucao, 'coast': set_of_routes_coast}
+                    print("=============== // =================")
+                    print(f"Solução: {solucao}")
+                    print(f"Custo: {set_of_routes_coast}")
+                    print("=====================//==================")
 
             # for teste in client_point:
             #   print(problema['dados'][teste-1])
@@ -122,17 +125,6 @@ for num_rotas in range(
 
         rotas = init_routes(problema["qtd_cliente"] - 1) # Inicializa as rotas para as novas combinações de rotas
 
-best_solution = {'solution': [], 'coast': 10000}
-coasts = []
-for data in dados:
-    coasts.append(int(data['coast']))
-    if data['coast'] < best_solution['coast']:
-        best_solution['coast'] = data['coast']
-        best_solution['solution'] = data['solucao']
-
-    print('solucao:',data['solucao'])
-    print('coast:',data['coast'])
 
 print(f"Best solution: {best_solution['solution']}")
 print(f"Coast of solution: {best_solution['coast']}")
-print("Coast should be:", min(coasts))
