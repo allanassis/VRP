@@ -35,8 +35,16 @@ def calc_route(route, route_data, origin):
     distance = 0
     p1 = {}
     p2 = {}
-    routes_info = [r for r in route_data if r[0] in route]
-    routes_info.append(origin)
+    routes_info = []
+    old_routes_info = [r for r in route_data if r[0] in route]
+
+    for i,r in enumerate(route):
+        for ri in old_routes_info:
+            if ri[0] == r:
+                routes_info.insert(i,ri)
+                break
+
+    routes_info.insert(0,origin)
     number_of_routes_points = len(routes_info)
     for i in range(0,number_of_routes_points):
         p1 = {'x': routes_info[i][1],'y':routes_info[i][2]}
@@ -81,7 +89,7 @@ max_num_of_routes = len([*rotas])
 min_coast = 10000
 best_solution = {}
 for num_rotas in range(
-    3, max_num_of_routes + 2
+    2, max_num_of_routes + 2
 ):  # este for explora as quantas rotas vai ter minha solução
     sets_of_routes_combinations = list(combinations([*rotas], num_rotas - 1))
     for set_of_routes in sets_of_routes_combinations:  # faz todas as possibilidades de rotas de tamanho NUM_ROTA
