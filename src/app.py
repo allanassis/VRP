@@ -101,6 +101,7 @@ for num_rotas in range(
                     if not check_route:
                         solucao.append(route)
                         route = [] # Zera a rota
+                        bad_solution = False
                     else:
                         bad_solution = True
                         break
